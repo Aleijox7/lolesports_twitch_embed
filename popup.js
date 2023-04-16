@@ -1,5 +1,9 @@
-document.getElementById('update-channel-button').onclick = () => {
-    const channelInput = document.getElementById('channel-input');
+function isValidUrl(url) {
+    return url.includes("https://lolesports.com/live/") || url.includes("https://lolesports.com/vod/");
+  }
+  
+  document.getElementById("update-channel-button").onclick = () => {
+    const channelInput = document.getElementById("channel-input");
     const channelName = channelInput.value;
     if (channelName) {
       chrome.storage.sync.set({ twitchChannel: channelName }, () => {
@@ -8,29 +12,46 @@ document.getElementById('update-channel-button').onclick = () => {
       });
     }
   };
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const saveButton = document.querySelector('#update-channel-button');
-    const channelInput = document.querySelector('#channel-input');
   
-    // Cargar el valor del canal almacenado en localStorage y establecerlo en el input
-    chrome.storage.local.get('channel', (data) => {
+  document.addEventListener("DOMContentLoaded", () => {
+    const saveButton = document.querySelector("#update-channel-button");
+    const channelInput = document.querySelector("#channel-input");
+  
+    chrome.storage.local.get("channel", (data) => {
       if (data.channel) {
         channelInput.value = data.channel;
       }
     });
+
+    // Enfocar y seleccionar el texto del input automáticamente
+    channelInput.focus();
+    setTimeout(() => {
+        channelInput.select();
+      }, 100);
   
-    saveButton.addEventListener('click', () => {
+    saveButton.addEventListener("click", () => {
       const channelName = channelInput.value;
       if (channelName) {
-        // Guardar el canal en el almacenamiento local de Chrome
         chrome.storage.local.set({ channel: channelName }, () => {
-          // Enviar un mensaje a content.js para actualizar el canal
           chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            chrome.tabs.sendMessage(tabs[0].id, { action: 'updateChannel', channelName: channelName });
+            if (isValidUrl(tabs[0].url)) {
+              chrome.tabs.sendMessage(tabs[0].id, {
+                action: "updateChannel",
+                channelName: channelName,
+              });
+            } else {
+              console.log("La pestaña actual no es una página de LoL Esports.");
+            }
           });
         });
       }
+    });
+
+    // Permitir el envío del formulario utilizando la tecla Enter
+    channelInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+        saveButton.click();
+        }
     });
   });
   

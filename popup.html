@@ -4,28 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Twitch Channel Selector</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 10px;
-    }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 5px;
-      margin-bottom: 10px;
-    }
-
-    button {
-      width: 100%;
-      padding: 5px;
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
 </head>
 <body>
+  <img src="icon.svg" alt="Icon" id="icon-image">
   <h1>Seleccionar canal de Twitch</h1>
   <input type="text" id="channel-input" placeholder="Nombre del canal">
-  <button id="update-channel-button">Actualizar canal</button>
+  <button id="update-channel-button">
+    <span class="material-icons">autorenew</span>
+    Actualizar canal
+</button>
   <script src="popup.js"></script>
 </body>
 </html>
