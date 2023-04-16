@@ -233,3 +233,8 @@
   .riotbar-account-anonymous-link-wrapper {
     min-width: max-content !important;
   }
+
+  /* Style twitch chat */
+  .ScTransitionBase-sc-hx4quq-0, .jmoDOx, .tw-transition {
+    display: none !important;
+  }

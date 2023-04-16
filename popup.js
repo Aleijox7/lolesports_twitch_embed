@@ -1,3 +1,76 @@
+const translations = {
+  en: {
+    selectTwitchChannel: "Select Twitch channel",
+    updateChannel: "Update channel",
+  },
+  es: {
+    selectTwitchChannel: "Seleccionar canal de Twitch",
+    updateChannel: "Actualizar canal",
+  },
+  fr: {
+    selectTwitchChannel: "Sélectionnez la chaîne Twitch",
+    updateChannel: "Mettre à jour la chaîne",
+  },
+  it: {
+    selectTwitchChannel: "Seleziona canale Twitch",
+    updateChannel: "Aggiorna canale",
+  },
+  de: {
+    selectTwitchChannel: "Twitch-Kanal auswählen",
+    updateChannel: "Kanal aktualisieren",
+  },
+};
+
+function changeLanguage(lang) {
+  document.querySelector("h1").innerText = translations[lang].selectTwitchChannel;
+  document.querySelector("#update-channel-text").innerText = translations[lang].updateChannel;
+
+  // Guarda el idioma seleccionado en localStorage
+  chrome.storage.local.set({ selectedLanguage: lang }, () => {
+    // Envía un mensaje para notificar a contentScript.js sobre el cambio de idioma
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      chrome.tabs.sendMessage(tabs[0].id, { action: "updateLanguage", language: lang });
+    });
+  });
+}
+
+
+document.querySelector("#language-button").addEventListener("click", function () {
+  const languageOptions = document.querySelector("#language-options");
+  languageOptions.classList.toggle("hidden");
+});
+
+document.querySelector("#language-options").addEventListener("click", function (event) {
+  if (event.target.tagName === "DIV") {
+    const lang = event.target.dataset.lang;
+    changeLanguage(lang);
+    document.querySelector("#language-options").classList.add("hidden");
+  }
+});
+
+  function getBrowserLanguage() {
+    const language = navigator.language || navigator.userLanguage;
+    return language.split('-')[0];
+  }
+
+  chrome.storage.local.get("selectedLanguage", (data) => {
+    const savedLanguage = data.selectedLanguage;
+    const defaultLanguage = savedLanguage ? savedLanguage : getBrowserLanguage();
+    changeLanguage(defaultLanguage in translations ? defaultLanguage : "es");
+  });  
+  
+  document.addEventListener("click", function (event) {
+    const languageOptions = document.querySelector("#language-options");
+    const languageSelector = document.querySelector("#language-selector");
+  
+    if (
+      !languageSelector.contains(event.target) &&
+      !languageOptions.classList.contains("hidden")
+    ) {
+      languageOptions.classList.add("hidden");
+    }
+  });
+
 function isValidUrl(url) {
     return url.includes("https://lolesports.com/live/") || url.includes("https://lolesports.com/vod/");
   }
