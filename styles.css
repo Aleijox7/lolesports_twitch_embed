@@ -170,12 +170,39 @@
     position: relative;
   }
 
-  .StatsTeamsPlayers .player .portrait .level {
-    z-index: 10 !important;
-  }
-
   @media (max-width: 1075px) {
     .twitch-chat, .twitch-stream, .toggle-chat-container {
         display: none;
     }
+  }
+
+  /* Edición de estilos de la página lolesports para que el stream no afecte al apartado de estadísticas */
+  .StatsTeamsPlayers .player .portrait .level {
+    z-index: 10 !important;
+  }
+
+  .Watch .event-header {
+    height: initial !important;
+  }
+
+  .EventMatchScore .match .teams {
+    padding: 5px !important;
+  }
+
+  .StatsTeamsSummary {
+    padding-top: 20px !important;
+  }
+
+  .StatsTeamsPlayers .player {
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+    height: 120px !important;
+  }
+
+  .StatsTeamsPlayers .gold-diffs .wrapper {
+    height: 120px !important;
+  }
+
+  .StatsTeamsPlayers .gold-diffs .diff {
+    top: 50px !important;
   }

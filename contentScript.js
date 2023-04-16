@@ -83,13 +83,14 @@ function setTwitchEmbedSize(twitchEmbed, chatEmbed) {
     twitchEmbed.src = `https://player.twitch.tv/?channel=${channelName}&parent=lolesports.com`;
     twitchEmbed.className = 'twitch-stream show-stream';
     twitchEmbed.allowFullscreen = true;
-    setTwitchEmbedSize(twitchEmbed, streamChatContainer);
     streamChatContainer.appendChild(twitchEmbed);
   
     const chatEmbed = document.createElement('iframe');
     chatEmbed.src = `https://www.twitch.tv/embed/${channelName}/chat?parent=lolesports.com&darkpopout`;
     chatEmbed.className = 'twitch-chat';
     streamChatContainer.appendChild(chatEmbed);
+
+    setTwitchEmbedSize(twitchEmbed, chatEmbed);
   
     // Ajusta el tamaño del embed de Twitch cuando la ventana se redimensiona
     window.addEventListener('resize', () => setTwitchEmbedSize(twitchEmbed, chatEmbed));
