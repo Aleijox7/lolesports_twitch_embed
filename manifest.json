@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "Lolesports Twitch Radio",
+    "name": "LoL Esports Twitch Radio",
     "version": "1.0",
     "description": "Embed de Twitch y su chat en lolesports.com",
     "action": {
