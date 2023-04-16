@@ -1,0 +1,181 @@
+.overview-pane {
+    position: relative;
+  }
+  
+  .stream-chat-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+  }
+  
+  .twitch-stream {
+    border: none;
+    position: fixed;
+    top: auto;
+    left: -400px;
+    /* width: calc(((100% - 442px) / 12) * 4 + 136px);
+    min-width: 400px;
+    max-width: 480px; */
+    height: auto;
+    aspect-ratio: 16 / 9;
+    bottom: 0px;
+    right: auto;
+    animation: twitchSlideOut .2s ease-out;
+    z-index: 51;
+  }
+
+  .twitch-stream.show-stream {
+    left: 0;
+    animation: twitchSlideIn .2s ease-out;
+  }
+
+  @media (min-width: 1076px) {
+    .twitch-stream {
+        width: calc(((100% - 442px) / 12) * 4 + 136px);
+        min-width: 400px;
+        max-width: 480px;
+    }
+  }
+
+  @keyframes twitchSlideIn {
+    0% {
+        left: -400px;
+    }
+    100% {
+        left: 0px;
+    }
+  }
+
+  @keyframes twitchSlideOut {
+    0% {
+        left: 0px;
+    }
+    100% {
+        left: -400px;
+    }
+  }
+  
+  .twitch-chat {
+    border: none;
+    position: fixed;
+    top: 80px;
+    left: -500px;
+    width: calc(((100% - 442px) / 12) * 4 + 136px);
+    min-width: 400px;
+    max-width: 480px;
+    height: calc(100vh - 80px - (9 / 16) * (((100% - 442px) / 12) * 4 + 136px));
+    bottom: 0px;
+    right: auto;
+    z-index: 50;
+    animation: twitchChatSlideOut .2s ease-out;
+  }
+
+  @media (min-width: 400px) and (max-width: 480px) {
+    .twitch-chat {
+            height: calc(100vh - 80px - (9 / 16) * 400px);
+        }
+}
+
+    /* Para anchos de pantalla mayores a 480px */
+    @media (min-width: 480px) {
+        .twitch-chat {
+            height: calc(100vh - 80px - (9 / 16) * 480px);
+        }
+}
+
+    @keyframes twitchChatSlideIn {
+    0% {
+        left: -500px;
+    }
+    100% {
+        left: 0px;
+    }
+  }
+
+  @keyframes twitchChatSlideOut {
+    0% {
+        left: 0px;
+    }
+    100% {
+        left: -500px;
+    }
+  }
+  
+  .twitch-chat.show-chat {
+    left: 0;
+    animation: twitchChatSlideIn .2s ease-out;
+  }
+  
+  button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 3;
+  }
+  
+  .toggle-chat-container {
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #111;
+    border-bottom: 2px solid rgba(51,51,51,.25);
+    font-family: "FF Mark W05",Arial,sans-serif;
+    font-size: 14px !important;
+    font-weight: bold;
+    height: 80px;
+    line-height: normal;
+    position: relative;
+    text-align: left;
+    display: flex;
+    width: 100%;
+    z-index: 3000000;
+  }
+
+  .toggle-chat-button {
+    float: left;
+    width: 130px;
+    background: rgba(127, 63, 209,.2);
+    box-shadow: 0 0 10px rgba(127, 63, 209, .4);
+    border: 1px solid rgba(127, 63, 209, .1);
+    border-radius: 6.4px;
+    transition: background-color .2s ease-out;
+  }
+  
+  .toggle-chat-button:hover {
+    background-color: rgba(127, 63, 209,.1);
+    box-shadow: 0 0 10px rgba(127, 63, 209, .1);
+    border: 1px solid rgba(127, 63, 209, .1);
+  }
+  
+  .toggle-chat-button img {
+    width: 16px;
+    height: 16px;
+  }
+
+  .toggle-chat-button div.container {
+    display: flex;
+    margin: 6px 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #f9f9f9;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 19px;
+    position: relative;
+  }
+
+  .StatsTeamsPlayers .player .portrait .level {
+    z-index: 10 !important;
+  }
+
+  @media (max-width: 1075px) {
+    .twitch-chat, .twitch-stream, .toggle-chat-container {
+        display: none;
+    }
+  }
