@@ -1,7 +1,9 @@
 const iconBase64 = 'data:image/png;base64,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';
+const errorIconBase64 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpY29uIiB3aWR0aD0iMzgiIGhlaWdodD0iMzgiIHZpZXdCb3g9IjAgMCA0MjUgNDI1Ij4NCiAgPHBhdGggY2xhc3M9InNoYXBlIiBmaWxsPSIjZjQ0MzM2IiBkPSJNOTQuNzMsOTQuODVoOTQuMTJWNDcuMzdoLTczYy0zNy44MywwLTY4LjQ5LDMwLjc0LTY4LjQ5LDY4LjY2djczLjE3aDQ3LjM3Vjk0Ljg1eiBNMTc5LjA0LDIxMi45NCAgICAgbC04NC4zMSw4NC41MXYtNjAuNzdINDcuMzd2MTQxLjgzaDE0MS40OXYtNDcuNDhoLTYwLjYzbDg0LjMxLTg0LjUyTDE3OS4wNCwyMTIuOTR6IE0zMzAuMzQsMzMxLjAzaC05NC4xMnY0Ny40OGg3MyAgICAgYzM3LjgzLDAsNjguNDktMzAuNzQsNjguNDktNjguNjZ2LTczLjE3aC00Ny4zN1YzMzEuMDN6IE0yMzYuMjIsNDcuMzd2NDcuNDhoNjAuNjNsLTg0LjMxLDg0LjUybDMzLjQ5LDMzLjU3bDg0LjMxLTg0LjUydjYwLjc3ICAgICBoNDcuMzdWNDcuMzdIMjM2LjIyeiI+PC9wYXRoPg0KPC9zdmc+';
 
 function setTwitchEmbedSize(twitchEmbed, chatEmbed) {
     const sidebarElement = document.querySelector('.overview-pane');
+    if (!sidebarElement) return;
     const containerWidth = sidebarElement.clientWidth;
     const embedHeight = (9 / 16) * containerWidth;
     
@@ -15,37 +17,45 @@ function setTwitchEmbedSize(twitchEmbed, chatEmbed) {
   
   function createToggleButton() {
     // Localizamos el elemento donde queremos insertar el botón
-    const targetElement = document.querySelector('#riotbar-right-content');
+    const targetElement = document.querySelector("#riotbar-right-content");
     if (!targetElement) return;
   
-    const toggleChatContainer = document.createElement('div');
-    toggleChatContainer.className = 'toggle-chat-container';
+    const toggleChatContainer = document.createElement("div");
+    toggleChatContainer.className = "toggle-chat-container";
   
-    const toggleChatButton = document.createElement('div');
-    toggleChatButton.className = 'toggle-chat-button';
+    const toggleChatButton = document.createElement("div");
+    toggleChatButton.className = "toggle-chat-button";
   
-    const buttonContainer = document.createElement('div');
-    buttonContainer.className = 'container';
+    const buttonContainer = document.createElement("div");
+    buttonContainer.className = "container";
   
-    const icon = document.createElement('img');
+    const icon = document.createElement("img");
     icon.src = iconBase64;
-    icon.alt = '';
-    icon.style.marginRight = '5px';
+    icon.alt = "";
     buttonContainer.appendChild(icon);
   
-    const text = document.createTextNode('');
+    const text = document.createTextNode("");
     buttonContainer.appendChild(text);
   
+    const isLoggedIn = !document.querySelector(".riotbar-account-anonymous-link-wrapper");
+  
+    if (!isLoggedIn) {
+      icon.src = errorIconBase64;
+      toggleChatButton.classList.add("error");
+    }
+  
     toggleChatButton.onclick = () => {
-      const chatEmbed = document.querySelector('.twitch-chat');
-      if (chatEmbed.classList && !chatEmbed.classList.contains('show-chat')) {
-        chatEmbed.classList.add('show-chat');
-        localStorage.setItem('chatState', 'show');
-        text.textContent = 'Ocultar Chat';
-      } else {
-        chatEmbed.classList.remove('show-chat');
-        localStorage.setItem('chatState', 'hide');
-        text.textContent = 'Mostrar Chat';
+      if (isLoggedIn) {
+        const chatEmbed = document.querySelector(".twitch-chat");
+        if (chatEmbed.classList && !chatEmbed.classList.contains("show-chat")) {
+          chatEmbed.classList.add("show-chat");
+          localStorage.setItem("chatState", "show");
+          text.textContent = "Ocultar Chat";
+        } else {
+          chatEmbed.classList.remove("show-chat");
+          localStorage.setItem("chatState", "hide");
+          text.textContent = "Mostrar Chat";
+        }
       }
     };
   
@@ -57,27 +67,28 @@ function setTwitchEmbedSize(twitchEmbed, chatEmbed) {
     targetElement.appendChild(toggleChatContainer);
   
     // Restauramos el estado del chat al recargar la página
-    const chatState = localStorage.getItem('chatState');
-    if (chatState === 'show') {
-      const chatEmbed = document.querySelector('.twitch-chat');
-      chatEmbed.classList.add('show-chat');
-      text.textContent = 'Ocultar Chat';
+    const chatState = localStorage.getItem("chatState");
+    if (chatState === "show") {
+      const chatEmbed = document.querySelector(".twitch-chat");
+      chatEmbed.classList.add("show-chat");
+      text.textContent = "Ocultar Chat";
     } else {
-      const chatEmbed = document.querySelector('.twitch-chat');
-      chatEmbed.classList.remove('show-chat');
-      text.textContent = 'Mostrar Chat';
+      const chatEmbed = document.querySelector(".twitch-chat");
+      chatEmbed.classList.remove("show-chat");
+      text.textContent = "Mostrar Chat";
     }
   }
-  
+
 
   function createTwitchEmbed(channelName) {
-    const overviewPane = document.querySelector('body');
-    if (!overviewPane) return;
+    const bodyContainer = document.querySelector('body');
+    const isNotLogged = document.querySelector('.riotbar-account-anonymous-link-wrapper');
+    if (isNotLogged) return;
   
     // Crear un contenedor para el stream y el chat
     const streamChatContainer = document.createElement('div');
     streamChatContainer.className = 'stream-chat-container';
-    overviewPane.appendChild(streamChatContainer);
+    bodyContainer.appendChild(streamChatContainer);
   
     const twitchEmbed = document.createElement('iframe');
     twitchEmbed.src = `https://player.twitch.tv/?channel=${channelName}&parent=lolesports.com`;
