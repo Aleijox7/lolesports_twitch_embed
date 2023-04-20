@@ -235,6 +235,10 @@
   }
 
   /* Style twitch chat */
+  .twitch-stream .top-bar {
+    display: none !important;
+  }
+
   .ScTransitionBase-sc-hx4quq-0, .jmoDOx, .tw-transition {
     display: none !important;
   }

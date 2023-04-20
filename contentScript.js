@@ -2,6 +2,7 @@ const iconBase64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAA
 const errorIconBase64 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpY29uIiB3aWR0aD0iMzgiIGhlaWdodD0iMzgiIHZpZXdCb3g9IjAgMCA0MjUgNDI1Ij4NCiAgPHBhdGggY2xhc3M9InNoYXBlIiBmaWxsPSIjZjQ0MzM2IiBkPSJNOTQuNzMsOTQuODVoOTQuMTJWNDcuMzdoLTczYy0zNy44MywwLTY4LjQ5LDMwLjc0LTY4LjQ5LDY4LjY2djczLjE3aDQ3LjM3Vjk0Ljg1eiBNMTc5LjA0LDIxMi45NCAgICAgbC04NC4zMSw4NC41MXYtNjAuNzdINDcuMzd2MTQxLjgzaDE0MS40OXYtNDcuNDhoLTYwLjYzbDg0LjMxLTg0LjUyTDE3OS4wNCwyMTIuOTR6IE0zMzAuMzQsMzMxLjAzaC05NC4xMnY0Ny40OGg3MyAgICAgYzM3LjgzLDAsNjguNDktMzAuNzQsNjguNDktNjguNjZ2LTczLjE3aC00Ny4zN1YzMzEuMDN6IE0yMzYuMjIsNDcuMzd2NDcuNDhoNjAuNjNsLTg0LjMxLDg0LjUybDMzLjQ5LDMzLjU3bDg0LjMxLTg0LjUydjYwLjc3ICAgICBoNDcuMzdWNDcuMzdIMjM2LjIyeiI+PC9wYXRoPg0KPC9zdmc+';
 
 let currentLanguage = "es";
+let resizingTriggered = false;
 
 const translations = {
   en: {
@@ -86,13 +87,15 @@ function setTwitchEmbedSize(twitchEmbed, chatEmbed) {
   
     const text = document.createTextNode("");
     buttonContainer.appendChild(text);
+
+    const isLoggedIn = true;
   
-    const isLoggedIn = !document.querySelector(".riotbar-account-anonymous-link-wrapper");
+    // const isLoggedIn = !document.querySelector(".riotbar-account-anonymous-link-wrapper");
   
-    if (!isLoggedIn) {
-      icon.src = errorIconBase64;
-      toggleChatButton.classList.add("error");
-    }
+    // if (!isLoggedIn) {
+    //   icon.src = errorIconBase64;
+    //   toggleChatButton.classList.add("error");
+    // }
   
     toggleChatButton.onclick = () => {
       if (isLoggedIn) {
@@ -133,8 +136,8 @@ function setTwitchEmbedSize(twitchEmbed, chatEmbed) {
 
   function createTwitchEmbed(channelName, lang) {
     const bodyContainer = document.querySelector('body');
-    const isNotLogged = document.querySelector('.riotbar-account-anonymous-link-wrapper');
-    if (isNotLogged) return;
+    // const isLoggedIn = !document.querySelector('.riotbar-account-anonymous-link-wrapper');
+    // if (!isLoggedIn) return;
   
     // Crear un contenedor para el stream y el chat
     const streamChatContainer = document.createElement('div');
@@ -142,9 +145,10 @@ function setTwitchEmbedSize(twitchEmbed, chatEmbed) {
     bodyContainer.appendChild(streamChatContainer);
   
     const twitchEmbed = document.createElement('iframe');
-    twitchEmbed.src = `https://player.twitch.tv/?channel=${channelName}&parent=lolesports.com`;
+    twitchEmbed.src = `https://player.twitch.tv/?channel=${channelName}&parent=lolesports.com&muted=false`;
     twitchEmbed.className = 'twitch-stream show-stream';
     twitchEmbed.allowFullscreen = true;
+    twitchEmbed.allow = 'autoplay';
     streamChatContainer.appendChild(twitchEmbed);
   
     const chatEmbed = document.createElement('iframe');
@@ -162,7 +166,7 @@ function setTwitchEmbedSize(twitchEmbed, chatEmbed) {
     const twitchEmbed = document.querySelector('.twitch-stream');
     const chatEmbed = document.querySelector('.twitch-chat');
   
-    twitchEmbed.src = `https://player.twitch.tv/?channel=${channelName}&parent=lolesports.com`;
+    twitchEmbed.src = `https://player.twitch.tv/?channel=${channelName}&parent=lolesports.com&muted=false`;
     chatEmbed.src = `https://www.twitch.tv/embed/${channelName}/chat?parent=lolesports.com&darkpopout`;
   }
   
@@ -200,9 +204,78 @@ function setTwitchEmbedSize(twitchEmbed, chatEmbed) {
       observer.observe(document.body, { childList: true, subtree: true });
     });
   }
+
+  function observeVideoPlayer() {
+    const videoPlayer = document.querySelector('#video-player');
+  
+    if (!videoPlayer) return;
+  
+    const observer = new MutationObserver((mutationsList) => {
+      for (const mutation of mutationsList) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+          if (!resizingTriggered) {
+            triggerResizeEvent();
+          }
+          break;
+        }
+      }
+    });
+  
+    // Configura el observer para monitorear cambios en los atributos del elemento #video-player
+    observer.observe(videoPlayer, { attributes: true });
+  }
+  
+  function updateStructure() {
+    const isLoggedIn = !document.querySelector('.riotbar-account-anonymous-link-wrapper');
+    if (isLoggedIn) {
+      return;
+    }
+
+    const mainElement = document.querySelector('main.Watch');
+    if (!mainElement) return;
+  
+    const overviewPane = mainElement.querySelector('.overview-pane');
+    const lower = mainElement.querySelector('.lower');
+  
+    if (!overviewPane || !lower) return;
+  
+    // Verifica si el overviewPane es hijo directo del elemento lower
+    if (overviewPane.parentElement === lower) {
+      // Mueve el overviewPane al principio del elemento main.Watch.large
+      mainElement.insertBefore(overviewPane, mainElement.firstChild);
+      triggerResizeEvent();
+    }
+  }
+
+  function triggerResizeEvent() {
+    resizingTriggered = true; // Establece resizingTriggered en true antes de disparar el evento
+    const resizeEvent = new Event('resize');
+    window.dispatchEvent(resizeEvent);
+    setTimeout(() => {
+      resizingTriggered = false; // Establece resizingTriggered en false después de disparar el evento
+    }, 100);
+  }
   
   async function main() {
     await waitForOverviewPane();
+
+    // Llama a la función updateStructure para corregir la estructura inicial de la página
+    updateStructure();
+    observeVideoPlayer();
+
+    // Observa los cambios en el DOM y actualiza la estructura cuando sea necesario
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'childList') {
+          updateStructure();
+        }
+      });
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
   
     let channelName = getChannelFromUrl();
     if (channelName) {
@@ -222,7 +295,7 @@ function setTwitchEmbedSize(twitchEmbed, chatEmbed) {
     // Escuchar mensajes desde popup.js
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (request.action === "updateLanguage") {
-        currentLanguage = request.language;
+        currentLanguage = request.language || 'es';
         updateTexts(request.language);
       }
       if (request.action === 'updateChannel') {
@@ -231,5 +304,107 @@ function setTwitchEmbedSize(twitchEmbed, chatEmbed) {
     });
   }
   
-  
   window.addEventListener('load', main);
+
+  let player;
+
+// Función para inicializar el reproductor de YouTube
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player("video-player", {
+    events: {
+      onReady: onPlayerReady,
+    },
+  });
+}
+
+// Función que se ejecuta cuando el reproductor de YouTube está listo
+function onPlayerReady(event) {
+  event.target.playVideo();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Función para agregar elementos de control de YouTube
+  function addYouTubeControls() {
+    const controlsHTML = `
+      <div class="youtube-controls">
+        <button class="control-button rewind-5">-5 segundos</button>
+        <button class="control-button rewind-1">-1 segundo</button>
+        <button class="control-button pause-play">Pausar/Reproducir</button>
+        <button class="control-button forward-1">+1 segundo</button>
+        <button class="control-button forward-5">+5 segundos</button>
+        <button class="control-button speed-x2">x2 velocidad</button>
+      </div>
+    `;
+
+    document.querySelector(".WatchMenu").insertAdjacentHTML('beforeend', controlsHTML);
+
+    // Agrega la funcionalidad a los botones de control
+    document.querySelector(".control-button.pause-play").addEventListener('click', function () {
+      const currentState = player.getPlayerState();
+      if (currentState === YT.PlayerState.PLAYING) {
+        player.pauseVideo();
+      } else {
+        player.playVideo();
+      }
+    });
+
+    document.querySelector(".control-button.rewind-1").addEventListener('click', function () {
+      player.seekTo(player.getCurrentTime() - 1, true);
+    });
+
+    document.querySelector(".control-button.rewind-5").addEventListener('click', function () {
+      player.seekTo(player.getCurrentTime() - 5, true);
+    });
+
+    document.querySelector(".control-button.forward-1").addEventListener('click', function () {
+      player.seekTo(player.getCurrentTime() + 1, true);
+    });
+
+    document.querySelector(".control-button.forward-5").addEventListener('click', function () {
+      player.seekTo(player.getCurrentTime() + 5, true);
+    });
+
+    document.querySelector(".control-button.speed-x2").addEventListener('click', function () {
+      const currentPlaybackRate = player.getPlaybackRate();
+      if (currentPlaybackRate === 1) {
+        player.setPlaybackRate(2);
+      } else {
+        player.setPlaybackRate(1);
+      }
+    });
+  }
+
+  // Función para eliminar elementos de control de YouTube
+  function removeYouTubeControls() {
+    const youtubeControls = document.querySelector(".youtube-controls");
+    if (youtubeControls) {
+      youtubeControls.remove();
+    }
+  }
+
+  // Escucha el evento de clic en los elementos de selección de plataforma
+  const providerOptions = document.querySelectorAll(".option[data-provider]");
+  providerOptions.forEach(option => {
+    option.addEventListener('click', function() {
+      const selectedProvider = this.getAttribute("data-provider");
+
+      // Si se seleccionó YouTube, agregar los elementos de control de YouTube
+      if (selectedProvider === "youtube") {
+        addYouTubeControls();
+      }
+      // Si se seleccionó otra plataforma, eliminar los elementos de control de YouTube
+      else {
+        removeYouTubeControls();
+      }
+    });
+  });
+});
+
+// function loadYouTubeIframeAPI() {
+//   const script = document.createElement("script");
+//   script.src = "https://www.youtube.com/iframe_api";
+//   const firstScriptTag = document.getElementsByTagName("script")[0];
+//   firstScriptTag.parentNode.insertBefore(script, firstScriptTag);
+// }
+
+// loadYouTubeIframeAPI();
