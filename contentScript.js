@@ -36,7 +36,9 @@ const translations = {
 
 function getSelectedLanguage(callback) {
   chrome.storage.local.get("selectedLanguage", (data) => {
-    currentLanguage = data.selectedLanguage || "en";
+    if (data.selectedLanguage) {
+      currentLanguage = data.selectedLanguage;
+    }
     callback(currentLanguage);
   });
 }
@@ -343,7 +345,9 @@ function setTwitchEmbedSize(twitchEmbed, chatEmbed) {
     // Escuchar mensajes desde popup.js
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (request.action === "updateLanguage") {
-        currentLanguage = request.language || "en";
+        if (request.language) {
+          currentLanguage = request.language;
+        }
         updateTexts(currentLanguage);
       }
       if (request.action === 'updateChannel') {
