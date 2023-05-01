@@ -336,7 +336,7 @@ function setTwitchEmbedSize(twitchEmbed, chatEmbed) {
       getSelectedLanguage((lang) => {
         createTwitchEmbed(savedChannel, lang);
         createToggleButton(lang);
-        startIntroJsTutorial(true);
+        startIntroJsTutorial();
       });
     });
   
