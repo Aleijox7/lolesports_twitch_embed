@@ -28,8 +28,12 @@ function changeLanguage(lang) {
   // Guarda el idioma seleccionado en localStorage
   chrome.storage.local.set({ selectedLanguage: lang }, () => {
     // Envía un mensaje para notificar a contentScript.js sobre el cambio de idioma
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      chrome.tabs.sendMessage(tabs[0].id, { action: "updateLanguage", language: lang });
+    chrome.storage.local.get("contentScriptTabId", (data) => {
+      if (data.contentScriptTabId) {
+        chrome.tabs.sendMessage(data.contentScriptTabId, { action: "updateLanguage", language: lang });
+      } else {
+        console.log("No se encontró el ID de la pestaña del content script.");
+      }
     });
   });
 }
@@ -81,7 +85,6 @@ function isValidUrl(url) {
     if (channelName) {
       chrome.storage.sync.set({ twitchChannel: channelName }, () => {
         console.log(`Canal guardado: ${channelName}`);
-        window.close();
       });
     }
   };
@@ -106,14 +109,14 @@ function isValidUrl(url) {
       const channelName = channelInput.value;
       if (channelName) {
         chrome.storage.local.set({ channel: channelName }, () => {
-          chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            if (isValidUrl(tabs[0].url)) {
-              chrome.tabs.sendMessage(tabs[0].id, {
-                action: "updateChannel",
-                channelName: channelName,
+          chrome.storage.local.get("contentScriptTabId", (data) => {
+            if (data.contentScriptTabId) {
+              chrome.tabs.sendMessage(data.contentScriptTabId, { action: "updateChannel", channelName: channelName }, () => {
+                chrome.tabs.update(data.contentScriptTabId, { active: true });
+                window.close();
               });
             } else {
-              console.log("La pestaña actual no es una página de LoL Esports.");
+              console.log("No se encontró el ID de la pestaña del content script.");
             }
           });
         });

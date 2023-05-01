@@ -115,7 +115,7 @@
     z-index: 3;
   }
   
-  .toggle-chat-container {
+  .toggle-chat-container, .share-stream-container {
     box-sizing: border-box;
 
     display: flex;
@@ -136,7 +136,7 @@
     z-index: 3000000;
   }
 
-  .toggle-chat-button {
+  .toggle-chat-button, .share-stream-button {
     float: left;
     width: max-content;
     background: rgba(127, 63, 209,.2);
@@ -146,10 +146,16 @@
     transition: background-color .2s ease-out;
   }
   
-  .toggle-chat-button:hover {
+  .toggle-chat-button:hover, .share-stream-button:hover {
     background-color: rgba(127, 63, 209,.1);
     box-shadow: 0 0 10px rgba(127, 63, 209, .1);
     border: 1px solid rgba(127, 63, 209, .1);
+  }
+
+  .share-stream-button {
+    margin-left: 10px;
+    width: 35px;
+    height: 33px;
   }
 
   .toggle-chat-button.error {
@@ -166,7 +172,7 @@
     border: none;
   }
   
-  .toggle-chat-button img {
+  .toggle-chat-button img, .share-stream-button img {
     width: 16px;
     height: 16px;
     margin-right: 5px;
@@ -176,7 +182,7 @@
     margin-right: 0px;
   }
 
-  .toggle-chat-button div.container {
+  .toggle-chat-button div.container, .share-stream-button div.container {
     display: flex;
     margin: 6px 10px;
     overflow: hidden;
@@ -189,12 +195,16 @@
     position: relative;
   }
 
+  .share-stream-button div.container {
+    margin: 8px;
+  }
+
   .toggle-chat-button.error div.container {
     margin: 8px;
   }
 
   @media (max-width: 1075px) {
-    .twitch-chat, .twitch-stream, .toggle-chat-container {
+    .twitch-chat, .twitch-stream, .toggle-chat-container, .share-stream-container {
         display: none;
     }
   }
@@ -241,4 +251,8 @@
 
   .ScTransitionBase-sc-hx4quq-0, .jmoDOx, .tw-transition {
     display: none !important;
+  }
+
+  .VodsFilter .leagues .league {
+    min-height: 100px !important;
   }

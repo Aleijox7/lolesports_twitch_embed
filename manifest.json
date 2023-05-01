@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "LoL Esports Twitch Radio",
-    "version": "1.3",
+    "version": "1.4",
     "description": "Embed de Twitch y su chat en lolesports.com",
     "action": {
       "default_popup": "popup.html",
@@ -16,6 +16,9 @@
       "scripting",
       "storage"
     ],
+    "background": {
+      "service_worker": "background.js"
+    },
     "icons": {
       "16": "icon16.png",
       "48": "icon48.png",
@@ -23,9 +26,9 @@
     },
     "content_scripts": [
       {
-        "matches": ["https://lolesports.com/live/*", "https://lolesports.com/vod/*"],
-        "js": ["contentScript.js"],
-        "css": ["styles.css"]
+        "matches": ["https://lolesports.com/*", "https://lolesports.com/live/*", "https://lolesports.com/vod/*"],
+        "js": ["contentScript.js", "intro.js"],
+        "css": ["styles.css", "introjs.css", "introjs_dark.css"]
       }
     ]
   }
